@@ -87,6 +87,9 @@ window.view = {
  	setInnerHtml: function (id, innerText) {
  		document.getElementById(id).innerHTML = innerText;
  	},
+	setTextContext: function (id, innerText) {
+ 		document.getElementById(id).textContent = innerText;
+ 	},
  	// hideCode: hides code content that is not selected in drop down list. 
  	hideCode: function(loopId) {
 		var node = document.getElementById(loopId);
@@ -229,7 +232,16 @@ window.view = {
 		this.canvasContext.fill();
 	},
 	// drawFillRectangle: draws fill rectangle on canvasContext.
- 	drawFillRectangle: function () {
+ 	drawFillRectangle1: function () {
+ 		//this.getCanvas();
+ 		this.canvasContext.beginPath();
+ 		this.canvasContext.fillStyle = '#C2D995';
+ 		this.canvasContext.fillRect (50, 50, 200, 250);
+ 		this.canvasContext.strokeStyle = '#000000';
+ 		this.canvasContext.rect(50, 50, 200, 250);
+ 		this.canvasContext.stroke();	
+ 	},
+	drawFillRectangle: function () {
  		//this.getCanvas();
  		this.canvasContext.beginPath();
  		this.canvasContext.fillStyle = '#C2D995';
@@ -272,6 +284,20 @@ window.view = {
 		this.displayText('(x4, y4)', 75, 345);
 		this.canvasContext.save();
     	},
+		displayFigures1: function () {
+			
+    		this.drawDots();
+    		this.drawFillRectangle1();
+    		this.drawCircle(50, 50, '#000000');
+		this.drawCircle(250, 50, '#000000');
+		this.drawCircle(250, 300, '#000000');
+		this.drawCircle(50, 300, '#000000');
+		this.displayText('(x1, y1)', 45, 45); 
+		this.displayText('(x2, y2)', 240, 45);
+		this.displayText('(x3, y3)', 250, 320);
+		this.displayText('(x4, y4)', 50, 320);
+		this.canvasContext.save();
+    	},
 	/* validationInput: check validation of input that is given by user and if input value is valid 
 	then make text field and ok button disable and make start button enable. */
 	validationInput: function () {
@@ -306,6 +332,12 @@ window.view = {
 		this.changeClass('okBtnId', 'buttonDisable okButton');
 		this.changeClass('loopList', 'buttonDisable expList');	
 	},
+	setValues: function(){
+		this.setTextContext('instructionText marginTop', 'x1 = 050; &nbsp; y1 = 050;');
+		this.setTextContext('instructionText ', 'x2 = 250; &nbsp; y2 = 050;');
+		this.setTextContext('instructionText ', 'x3 = 250; &nbsp; y3 = 300;');
+		this.setTextContext('instructionText ', 'x4 = 050; &nbsp; y4 = 300;');
+	},
     	// startExperiment: work to start code execution.
 	startExecution: function () {
 		this.changeClass('startBtnId', 'buttonDisable startButton margin15 hide');
@@ -315,7 +347,9 @@ window.view = {
 		this.enableElement('nextBtnId');
 		this.disableElement('startBtnId');
 		if (this.selectedLoop.id === 'ifElseList') {
+			//this.setValues();
 			this.applyColorClass('codeContentIfElse1Id', 'redClass');
+			
 		}
 		if (this.selectedLoop.id === 'ifElseIfList') {
 			this.applyColorClass('codeContentIfElseIf1Id', 'redClass');
@@ -324,9 +358,12 @@ window.view = {
 	// nextStepsOfExecution: calls executionOfIfElse and executionOfIfElseIfElse methods according selected option of drop down list.
 	nextStepsOfExecution: function () {
 		if (this.selectedLoop.id === 'ifElseList') {
+			//this.displayFigures1();
+			//this.setValues();
 			this.executionOfIfElse();
 		}
 		if (this.selectedLoop.id === 'ifElseIfList') {
+			//this.displayFigures();
 			this.executionOfIfElseIfElse();
 		}
 	},
@@ -342,6 +379,7 @@ window.view = {
 		}
 		this.nextSiblingElement = this.getNextSiblingElement(this.currentSiblingElement);
 		this.nextOfnextSiblingElement = this.getNextSiblingElement(this.nextSiblingElement);
+		//this.setValues();
 		if (this.nextSiblingElement.id === 'codeContentIfElse23Id' || this.nextSiblingElement.id === 'codeContentIfElse27Id') {
 			this.codeExecutionWithColourAndId('codeContentIfElse28Id');
 		}
@@ -355,7 +393,7 @@ window.view = {
 			if (this.nextSiblingElement.id === 'codeContentIfElse4Id' || this.nextOfnextSiblingElement.id === 'codeContentIfElse6Id') {
 				if (this.nextSiblingElement.id === 'codeContentIfElse4Id') 
 					this.codeExecutionWithColour();
-				else if (model.valueOfX >= 75) 
+				else if (model.valueOfX >= 50) 
 					this.changeFlagValue('flagValue1', 'codeContentIfElse6Id', '1');
 				else
 					this.codeExecutionWithColourAndId('codeContentIfElse8Id');
@@ -363,7 +401,7 @@ window.view = {
 			if (this.nextOfnextSiblingElement.id === 'codeContentIfElse8Id' || this.nextOfnextSiblingElement.id === 'codeContentIfElse10Id') {
 				if (this.nextOfnextSiblingElement.id === 'codeContentIfElse8Id') 
 					this.codeExecutionWithColourAndId('codeContentIfElse8Id');
-				else if (model.valueOfX <= 275) 
+				else if (model.valueOfX <= 250) 
 					this.changeFlagValue('flagValue2', 'codeContentIfElse10Id', '1');
 				else
 					this.codeExecutionWithColourAndId('codeContentIfElse12Id');
@@ -371,7 +409,7 @@ window.view = {
 			if (this.nextOfnextSiblingElement.id === 'codeContentIfElse12Id' || this.nextOfnextSiblingElement.id === 'codeContentIfElse14Id') {
 				if (this.nextOfnextSiblingElement.id === 'codeContentIfElse12Id') 
 					this.codeExecutionWithColourAndId('codeContentIfElse12Id');
-				else if (model.valueOfY >= 75) 
+				else if (model.valueOfY >= 50) 
 					this.changeFlagValue('flagValue3', 'codeContentIfElse14Id', '1');
 				else
 					this.codeExecutionWithColourAndId('codeContentIfElse16Id');
@@ -379,7 +417,7 @@ window.view = {
 			if (this.nextOfnextSiblingElement.id === 'codeContentIfElse16Id' || this.nextOfnextSiblingElement.id === 'codeContentIfElse18Id') {
 				if (this.nextOfnextSiblingElement.id === 'codeContentIfElse16Id')
 					this.codeExecutionWithColourAndId('codeContentIfElse16Id');
-				else if (model.valueOfY <= 325) 
+				else if (model.valueOfY <= 300) 
 					this.changeFlagValue('flagValue4', 'codeContentIfElse18Id', '1');
 				else
 					this.codeExecutionWithColourAndId('codeContentIfElse20Id');
@@ -387,7 +425,7 @@ window.view = {
 			if (this.nextOfnextSiblingElement.id === 'codeContentIfElse20Id' || this.nextOfnextSiblingElement.id === 'codeContentIfElse22Id') {
 				if (this.nextOfnextSiblingElement.id === 'codeContentIfElse20Id') 
 					this.codeExecutionWithColourAndId('codeContentIfElse20Id');
-				else if (model.valueOfX > 75 && model.valueOfX < 275 && model.valueOfY > 75 && model.valueOfY < 325) {
+				else if (model.valueOfX > 50 && model.valueOfX < 250 && model.valueOfY > 50 && model.valueOfY < 300) {
 					this.codeExecutionWithColourAndId('codeContentIfElse22Id');
 					this.displayTextWithColour('Output: INSIDE', 100, 40, '#FF2400');
 				}
@@ -459,7 +497,8 @@ window.view = {
 	// init: calls methods to draw canvas and activate events.
 	init: function () {
 		this.activateEvents();
-		this.displayFigures();
+		//this.setValues();
+		this.displayFigures1();
 	}
 }
 // onload function: call init method on window onload.
