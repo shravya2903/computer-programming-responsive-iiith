@@ -82,11 +82,13 @@ window.view = {
 		this.numbers = inputValue.split(',')
 	},
 	takeInputFromRadioBox: function() {
-		var element = document.getElementsByName('radio_group')
-		if ( element[0].checked )
-			this.generateRandomNumbers()
-		else if (element[1].checked)
+		var element = document.getElementsByName('radio_group');
+		if ( element[0].checked ){
+			this.generateRandomNumbers();
+		}
+		else if (element[1].checked){
 			this.getUserInput()
+		}
 	},
 	createBoxes: function() {
 		for ( i = 0 ; i < this.numbers.length ; i++ ) {
