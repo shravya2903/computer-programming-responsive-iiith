@@ -34,24 +34,24 @@ window.view = {
  		document.getElementById(id).innerHTML = innerHTML;
  	},
  	// enableElement: makes element enable.
-    	enableElement: function (id) {
-    		document.getElementById(id).disabled = false;
-    	},
-    	// disableElement: makes element disable.
-    	disableElement: function (id) {
-    		document.getElementById(id).disabled = true;
-    	},
-    	// replaceElement: replace one element by another element.
-    	replaceElement: function (id1, id2) {
-    		document.getElementById(id1).style.display = 'none';
-    		document.getElementById(id2).style.display = 'block';  	 
-    	},
-    	// changeClass: changes class name of a element.
+    enableElement: function (id) {
+    	document.getElementById(id).disabled = false;
+    },
+    // disableElement: makes element disable.
+    disableElement: function (id) {
+    	document.getElementById(id).disabled = true;
+    },
+    // replaceElement: replace one element by another element.
+    replaceElement: function (id1, id2) {
+    	document.getElementById(id1).style.display = 'none';
+    	document.getElementById(id2).style.display = 'block';  	 
+    },
+    // changeClass: changes class name of a element.
 	changeClass: function(id, className) {
 		document.getElementById(id).className = className
 	},
-    	// setValue: set given value to a element.
-    	setValue: function (id, value) {
+    // setValue: set given value to a element.
+    setValue: function (id, value) {
 		document.getElementById(id).value = value;
 	},
 	// getValue: get value from element.
@@ -96,7 +96,9 @@ window.view = {
 	showDay: function (id, previousChildId, imagesId, innerHTMLId, innerHTML) {
 		this.codeExecutionWithColourAndId(id);
 		this.setInnerHtml(innerHTMLId, innerHTML);
-		this.changeOpacity(imagesId);	
+		if(imagesId != null){
+			this.changeOpacity(imagesId);	
+		}
 	},
 	// jumpToDay: to jump on desire day.
 	jumpToDay: function () {
@@ -209,10 +211,12 @@ window.view = {
 	// showDayOfWeek: shows code execution and gives final result at end of code.
 	showDayOfWeek: function () {
 		this.currentSiblingElement = this.getElementByClass('redClass');
+		console.log(this.currentSiblingElement);
 		if (this.currentSiblingElement.id === 'closeBrc2Id') {
 	 		this.endOfExecution();
 	 	}
 		this.nextSiblingElement = this.getNextSiblingElement(this.currentSiblingElement);
+		console.log(this.nextSiblingElement);
 		if (this.nextSiblingElement.id === 'charId' || this.nextSiblingElement.id === 'strId' || this.nextSiblingElement.id === 'switchId')
 			this.codeExecutionWithColour();
 		if (this.nextSiblingElement.id === 'case1Id')
@@ -221,6 +225,7 @@ window.view = {
 			this.codeExecutionWithColour();
 	 	if (this.currentSiblingElement.className === 'break redClass')
 			this.codeExecutionWithColourAndId('closeBrc1Id');
+		
 		if (1 <= model.inputNumber && model.inputNumber <= 5) {
 	 		if (this.nextSiblingElement.id === 'holidayId')
 				this.codeExecutionWithColourAndId('elseIfId');
@@ -230,7 +235,8 @@ window.view = {
 				this.setInnerHtml('outputDayId', 'WORKING DAY');
 	 		}
 	 	}
-		if ( model.inputNumber > 7 ) {
+		
+		if ( model.inputNumber > 7 || model.inputNumber < 1 ) {
 	 		if (this.nextSiblingElement.id === 'holidayId')
 				this.codeExecutionWithColourAndId('elseIfId');
 	 		else if (this.nextSiblingElement.id === 'workingdayId') 
@@ -247,6 +253,7 @@ window.view = {
 				this.setInnerHtml('outputDayId', 'HOLIDAY');
 	 		}
 	 	}
+		
 		if (this.nextSiblingElement.id === 'ifId')
 			this.codeExecutionWithColour();
 		if (this.nextSiblingElement.id === 'closeBrc2Id' || this.nextSiblingElement.id === 'elseId' || this.nextSiblingElement.id === 'elseIfId') {
